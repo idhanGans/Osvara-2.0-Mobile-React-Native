@@ -61,7 +61,11 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({
         </View>
 
         {/* Logout Button */}
-        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <TouchableOpacity
+          style={styles.logoutButton}
+          onPress={handleLogout}
+          activeOpacity={0.8}
+        >
           <Text style={styles.logoutButtonText}>Logout</Text>
         </TouchableOpacity>
 

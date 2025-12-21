@@ -22,12 +22,12 @@ export const CartScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
 
   const handleCheckout = useCallback(() => {
     if (items.length === 0) {
-      Alert.alert('Keranjang Kosong', 'Tambahkan produk sebelum checkout');
+      Alert.alert('Keranjang Kosong', 'Tambahkan produk sebelum checkout', [
+        { text: 'OK', onPress: () => navigation.navigate('Home') },
+      ]);
       return;
     }
-    InteractionManager.runAfterInteractions(() => {
-      navigation.navigate('Checkout');
-    });
+    navigation.navigate('Checkout');
   }, [items.length, navigation]);
 
   const handleRemove = useCallback(
@@ -66,6 +66,7 @@ export const CartScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           <TouchableOpacity
             style={styles.continueButton}
             onPress={() => navigation.navigate('Home')}
+            activeOpacity={0.8}
           >
             <Text style={styles.continueButtonText}>Lanjut Belanja</Text>
           </TouchableOpacity>
@@ -107,6 +108,7 @@ export const CartScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                       updateQuantity(item.id, Math.max(1, item.quantity - 1))
                     }
                     style={styles.quantityButton}
+                    activeOpacity={0.6}
                   >
                     <Text style={styles.quantityButtonText}>−</Text>
                   </TouchableOpacity>
@@ -114,6 +116,7 @@ export const CartScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                   <TouchableOpacity
                     onPress={() => updateQuantity(item.id, item.quantity + 1)}
                     style={styles.quantityButton}
+                    activeOpacity={0.6}
                   >
                     <Text style={styles.quantityButtonText}>+</Text>
                   </TouchableOpacity>
@@ -122,6 +125,7 @@ export const CartScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                 <TouchableOpacity
                   onPress={() => handleRemove(item.id)}
                   style={styles.deleteButton}
+                  activeOpacity={0.6}
                 >
                   <Text style={styles.deleteButtonText}>✕</Text>
                 </TouchableOpacity>
@@ -152,12 +156,17 @@ export const CartScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
 
       {/* Action Buttons */}
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.clearButton} onPress={handleClearCart}>
+        <TouchableOpacity
+          style={styles.clearButton}
+          onPress={handleClearCart}
+          activeOpacity={0.7}
+        >
           <Text style={styles.clearButtonText}>Kosongkan</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.checkoutButton}
           onPress={handleCheckout}
+          activeOpacity={0.8}
         >
           <Text style={styles.checkoutButtonText}>Checkout</Text>
         </TouchableOpacity>

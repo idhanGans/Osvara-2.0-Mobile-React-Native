@@ -83,6 +83,7 @@ export const ProductDetailScreen: React.FC<{ navigation: any; route: any }> = ({
               <TouchableOpacity
                 onPress={() => setQuantity(Math.max(1, quantity - 1))}
                 style={styles.quantityButton}
+                activeOpacity={0.6}
               >
                 <Text style={styles.quantityButtonText}>−</Text>
               </TouchableOpacity>
@@ -90,6 +91,7 @@ export const ProductDetailScreen: React.FC<{ navigation: any; route: any }> = ({
               <TouchableOpacity
                 onPress={() => setQuantity(quantity + 1)}
                 style={styles.quantityButton}
+                activeOpacity={0.6}
               >
                 <Text style={styles.quantityButtonText}>+</Text>
               </TouchableOpacity>
@@ -102,7 +104,11 @@ export const ProductDetailScreen: React.FC<{ navigation: any; route: any }> = ({
 
       {/* Action Button */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.addButton} onPress={handleAddToCart}>
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={handleAddToCart}
+          activeOpacity={0.8}
+        >
           <Text style={styles.addButtonText}>Tambah ke Keranjang</Text>
         </TouchableOpacity>
       </View>

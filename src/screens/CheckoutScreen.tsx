@@ -28,40 +28,69 @@ export const CheckoutScreen: React.FC<{ navigation: any }> = ({
   const getTotalPrice = useCartStore(state => state.getTotalPrice());
   const clearCart = useCartStore(state => state.clearCart);
 
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePhone = (phone: string) => {
+    const phoneRegex = /^[0-9]{10,15}$/;
+    return phoneRegex.test(phone.replace(/\D/g, ''));
+  };
+
   const handleCheckout = useCallback(async () => {
-    if (!name || !email || !phone || !address) {
-      Alert.alert('Error', 'Semua field harus diisi');
+    if (!name.trim()) {
+      Alert.alert('Error', 'Nama harus diisi');
+      return;
+    }
+    if (!email.trim() || !validateEmail(email)) {
+      Alert.alert('Error', 'Email tidak valid');
+      return;
+    }
+    if (!phone.trim() || !validatePhone(phone)) {
+      Alert.alert('Error', 'Nomor telepon tidak valid (10-15 digit)');
+      return;
+    }
+    if (!address.trim()) {
+      Alert.alert('Error', 'Alamat harus diisi');
       return;
     }
 
     setIsLoading(true);
 
     // Simulate API call
-    InteractionManager.runAfterInteractions(() => {
-      setTimeout(() => {
-        setIsLoading(false);
-        Alert.alert(
-          'Pesanan Berhasil',
-          `Terima kasih telah berbelanja! Pesanan akan dikirim ke ${address}.\n\nNo. Pesanan: #${Date.now()}`,
-          [
-            {
-              text: 'OK',
-              onPress: () => {
-                clearCart();
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: 'Home' }],
-                });
-              },
+    setTimeout(() => {
+      setIsLoading(false);
+      const orderNumber = Math.floor(Math.random() * 1000000);
+      Alert.alert(
+        'Pesanan Berhasil! ✅',
+        `Terima kasih telah berbelanja!\n\nNo. Pesanan: #${orderNumber}\n\nNama: ${name}\nAlamat: ${address}\n\nPesanan akan dikirim dalam 2-3 hari kerja.`,
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              clearCart();
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'HomeMain' }],
+              });
             },
-          ],
-        );
-      }, 1500);
-    });
+          },
+        ],
+      );
+    }, 1500);
   }, [name, email, phone, address, clearCart, navigation]);
 
   return (
     <View style={styles.container}>
+      <View style={styles.headerContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.backButton}>‹ Kembali</Text>
+        </TouchableOpacity>
+      </View>
       <Header onCartPress={() => {}} title="Checkout" showCart={false} />
 
       <ScrollView
@@ -156,6 +185,7 @@ export const CheckoutScreen: React.FC<{ navigation: any }> = ({
           ]}
           onPress={handleCheckout}
           disabled={isLoading}
+          activeOpacity={isLoading ? 1 : 0.8}
         >
           <Text style={styles.checkoutButtonText}>
             {isLoading ? 'Memproses...' : 'Konfirmasi Pesanan'}
@@ -170,6 +200,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.dark,
+  },
+  headerContainer: {
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 0,
+  },
+  backButton: {
+    color: COLORS.gold,
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 8,
   },
   content: {
     flex: 1,

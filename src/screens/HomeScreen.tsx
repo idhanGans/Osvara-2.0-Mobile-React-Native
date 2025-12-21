@@ -80,6 +80,7 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                 selectedCategory === null && styles.categoryChipActive,
               ]}
               onPress={() => setSelectedCategory(null)}
+              activeOpacity={0.6}
             >
               <Text
                 style={[

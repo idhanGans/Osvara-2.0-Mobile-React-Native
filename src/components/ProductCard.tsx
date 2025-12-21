@@ -66,6 +66,7 @@ const ProductCardComponent: React.FC<ProductCardProps> = ({
           <TouchableOpacity
             style={styles.addButton}
             onPress={() => onAddToCart(product)}
+            activeOpacity={0.7}
           >
             <Text style={styles.addButtonText}>🛒</Text>
           </TouchableOpacity>
