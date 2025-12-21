@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   View,
   ScrollView,
@@ -13,7 +13,7 @@ import { COLORS } from '../utils/constants';
 export const ProfileScreen: React.FC<{ navigation: any }> = ({
   navigation,
 }) => {
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     Alert.alert('Logout', 'Apakah Anda yakin ingin logout?', [
       { text: 'Batal', style: 'cancel' },
       {
@@ -24,7 +24,7 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({
         style: 'destructive',
       },
     ]);
-  };
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -34,7 +34,7 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({
         showCart={true}
       />
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false} scrollEventThrottle={16}>
         {/* Profile Card */}
         <View style={styles.profileCard}>
           <View style={styles.avatar}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   View,
   ScrollView,
@@ -7,6 +7,7 @@ import {
   StyleSheet,
   FlatList,
   Alert,
+  InteractionManager,
 } from 'react-native';
 import { Header } from '../components/Header';
 import { COLORS, formatPrice } from '../utils/constants';
@@ -19,20 +20,22 @@ export const CartScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const getTotalPrice = useCartStore(state => state.getTotalPrice());
   const clearCart = useCartStore(state => state.clearCart);
 
-  const handleCheckout = () => {
+  const handleCheckout = useCallback(() => {
     if (items.length === 0) {
       Alert.alert('Keranjang Kosong', 'Tambahkan produk sebelum checkout');
       return;
     }
-    navigation.navigate('Checkout');
-  };
+    InteractionManager.runAfterInteractions(() => {
+      navigation.navigate('Checkout');
+    });
+  }, [items.length, navigation]);
 
-  const handleRemove = (itemId: string) => {
+  const handleRemove = useCallback((itemId: string) => {
     removeFromCart(itemId);
     Alert.alert('Dihapus', 'Produk dihapus dari keranjang');
-  };
+  }, [removeFromCart]);
 
-  const handleClearCart = () => {
+  const handleClearCart = useCallback(() => {
     Alert.alert(
       'Kosongkan Keranjang',
       'Apakah Anda yakin ingin menghapus semua produk?',
@@ -45,7 +48,7 @@ export const CartScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
         },
       ],
     );
-  };
+  }, [clearCart]);
 
   if (items.length === 0) {
     return (
@@ -72,13 +75,16 @@ export const CartScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     <View style={styles.container}>
       <Header onCartPress={() => {}} title="Keranjang" showCart={false} />
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false} scrollEventThrottle={16}>
         {/* Items List */}
         <View style={styles.itemsSection}>
           <FlatList
             data={items}
             keyExtractor={item => item.id}
             scrollEnabled={false}
+            removeClippedSubviews={true}
+            maxToRenderPerBatch={10}
+            updateCellsBatchingPeriod={50}
             renderItem={({ item }) => (
               <View style={styles.cartItem}>
                 <View style={styles.itemInfo}>

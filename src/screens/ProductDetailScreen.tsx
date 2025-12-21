@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   View,
   ScrollView,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  InteractionManager,
 } from 'react-native';
 import { Header } from '../components/Header';
 import { COLORS, formatPrice } from '../utils/constants';
@@ -20,11 +21,13 @@ export const ProductDetailScreen: React.FC<{ navigation: any; route: any }> = ({
   const [quantity, setQuantity] = useState(1);
   const addToCart = useCartStore(state => state.addToCart);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = useCallback(() => {
     addToCart(product, quantity);
-    Alert.alert('Berhasil', `${product.name} ditambahkan ke keranjang`);
-    navigation.goBack();
-  };
+    InteractionManager.runAfterInteractions(() => {
+      Alert.alert('Berhasil', `${product.name} ditambahkan ke keranjang`);
+      navigation.goBack();
+    });
+  }, [addToCart, product, quantity, navigation]);
 
   return (
     <View style={styles.container}>
@@ -34,7 +37,7 @@ export const ProductDetailScreen: React.FC<{ navigation: any; route: any }> = ({
         showCart={true}
       />
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false} scrollEventThrottle={16}>
         {/* Image */}
         <Image
           source={{ uri: product.image }}

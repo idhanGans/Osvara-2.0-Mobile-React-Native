@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   View,
   ScrollView,
@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Alert,
   Switch,
+  InteractionManager,
 } from 'react-native';
 import { Header } from '../components/Header';
 import { COLORS, formatPrice } from '../utils/constants';
@@ -27,7 +28,7 @@ export const CheckoutScreen: React.FC<{ navigation: any }> = ({
   const getTotalPrice = useCartStore(state => state.getTotalPrice());
   const clearCart = useCartStore(state => state.clearCart);
 
-  const handleCheckout = async () => {
+  const handleCheckout = useCallback(async () => {
     if (!name || !email || !phone || !address) {
       Alert.alert('Error', 'Semua field harus diisi');
       return;
@@ -36,32 +37,34 @@ export const CheckoutScreen: React.FC<{ navigation: any }> = ({
     setIsLoading(true);
 
     // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      Alert.alert(
-        'Pesanan Berhasil',
-        `Terima kasih telah berbelanja! Pesanan akan dikirim ke ${address}.\n\nNo. Pesanan: #${Date.now()}`,
-        [
-          {
-            text: 'OK',
-            onPress: () => {
-              clearCart();
-              navigation.reset({
-                index: 0,
-                routes: [{ name: 'Home' }],
-              });
+    InteractionManager.runAfterInteractions(() => {
+      setTimeout(() => {
+        setIsLoading(false);
+        Alert.alert(
+          'Pesanan Berhasil',
+          `Terima kasih telah berbelanja! Pesanan akan dikirim ke ${address}.\n\nNo. Pesanan: #${Date.now()}`,
+          [
+            {
+              text: 'OK',
+              onPress: () => {
+                clearCart();
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: 'Home' }],
+                });
+              },
             },
-          },
-        ],
-      );
-    }, 1500);
-  };
+          ],
+        );
+      }, 1500);
+    });
+  }, [name, email, phone, address, clearCart, navigation]);
 
   return (
     <View style={styles.container}>
       <Header onCartPress={() => {}} title="Checkout" showCart={false} />
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false} scrollEventThrottle={16}>
         {/* Order Summary */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Ringkasan Pesanan</Text>

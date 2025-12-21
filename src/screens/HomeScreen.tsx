@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import {
   View,
   ScrollView,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   Dimensions,
+  InteractionManager,
 } from 'react-native';
 import { Header } from '../components/Header';
 import { ProductCard } from '../components/ProductCard';
@@ -21,24 +22,32 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const addToCart = useCartStore(state => state.addToCart);
 
-  const filteredProducts = selectedCategory
-    ? PRODUCTS.filter(p => p.category === selectedCategory)
-    : PRODUCTS;
+  const filteredProducts = useMemo(
+    () =>
+      selectedCategory
+        ? PRODUCTS.filter(p => p.category === selectedCategory)
+        : PRODUCTS,
+    [selectedCategory]
+  );
 
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = useCallback((product: Product) => {
     addToCart(product, 1);
-    Alert.alert('Berhasil', `${product.name} ditambahkan ke keranjang`);
-  };
+    InteractionManager.runAfterInteractions(() => {
+      Alert.alert('Berhasil', `${product.name} ditambahkan ke keranjang`);
+    });
+  }, [addToCart]);
 
-  const handleProductPress = (product: Product) => {
-    navigation.navigate('ProductDetail', { product });
-  };
+  const handleProductPress = useCallback((product: Product) => {
+    InteractionManager.runAfterInteractions(() => {
+      navigation.navigate('ProductDetail', { product });
+    });
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
       <Header onCartPress={() => navigation.navigate('Cart')} showCart={true} />
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false} scrollEventThrottle={16}>
         {/* Banner */}
         <View style={styles.banner}>
           <Text style={styles.bannerText}>Koleksi Terbaru Kami</Text>
@@ -103,6 +112,10 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             numColumns={2}
             columnWrapperStyle={styles.row}
             scrollEnabled={false}
+            removeClippedSubviews={true}
+            maxToRenderPerBatch={10}
+            updateCellsBatchingPeriod={50}
+            initialNumToRender={6}
             renderItem={({ item }) => (
               <ProductCard
                 product={item}

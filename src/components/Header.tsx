@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   View,
   Text,
@@ -16,12 +16,13 @@ interface HeaderProps {
   showCart?: boolean;
 }
 
-export const Header: React.FC<HeaderProps> = ({
+const HeaderComponent: React.FC<HeaderProps> = ({
   onCartPress,
   title = 'OSVARA',
   showCart = true,
 }) => {
   const cartItems = useCartStore(state => state.getTotalItems());
+  const handlePress = useCallback(onCartPress, [onCartPress]);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -31,7 +32,7 @@ export const Header: React.FC<HeaderProps> = ({
         {showCart && (
           <TouchableOpacity
             style={styles.cartButton}
-            onPress={onCartPress}
+            onPress={handlePress}
             activeOpacity={0.7}
           >
             <Text style={styles.cartIcon}>🛒</Text>
@@ -46,6 +47,8 @@ export const Header: React.FC<HeaderProps> = ({
     </SafeAreaView>
   );
 };
+
+export const Header = React.memo(HeaderComponent);
 
 const styles = StyleSheet.create({
   safeArea: {

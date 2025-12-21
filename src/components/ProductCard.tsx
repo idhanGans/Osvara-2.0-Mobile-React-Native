@@ -19,7 +19,7 @@ interface ProductCardProps {
 const { width } = Dimensions.get('window');
 const cardWidth = (width - 20 - 8) / 2;
 
-export const ProductCard: React.FC<ProductCardProps> = ({
+const ProductCardComponent: React.FC<ProductCardProps> = ({
   product,
   onPress,
   onAddToCart,
@@ -74,6 +74,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     </TouchableOpacity>
   );
 };
+
+export const ProductCard = React.memo(ProductCardComponent, (prevProps, nextProps) => {
+  return (
+    prevProps.product.id === nextProps.product.id &&
+    prevProps.onPress === nextProps.onPress &&
+    prevProps.onAddToCart === nextProps.onAddToCart
+  );
+});
 
 const styles = StyleSheet.create({
   card: {

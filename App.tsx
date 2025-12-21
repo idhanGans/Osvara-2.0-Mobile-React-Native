@@ -23,6 +23,24 @@ const HomeStack = () => {
       screenOptions={{
         headerShown: false,
         animationEnabled: true,
+        animationTypeForReplace: 'pop',
+        cardStyle: { backgroundColor: COLORS.dark },
+        transitionSpec: {
+          open: {
+            animation: 'timing',
+            config: {
+              duration: 300,
+              useNativeDriver: true,
+            },
+          },
+          close: {
+            animation: 'timing',
+            config: {
+              duration: 300,
+              useNativeDriver: true,
+            },
+          },
+        },
       }}
     >
       <Stack.Screen name="HomeMain" component={HomeScreen} />
@@ -49,7 +67,7 @@ const HomeStack = () => {
       />
     </Stack.Navigator>
   );
-};
+}
 
 const ProfileStack = () => {
   return (
@@ -57,6 +75,24 @@ const ProfileStack = () => {
       screenOptions={{
         headerShown: false,
         animationEnabled: true,
+        animationTypeForReplace: 'pop',
+        cardStyle: { backgroundColor: COLORS.dark },
+        transitionSpec: {
+          open: {
+            animation: 'timing',
+            config: {
+              duration: 300,
+              useNativeDriver: true,
+            },
+          },
+          close: {
+            animation: 'timing',
+            config: {
+              duration: 300,
+              useNativeDriver: true,
+            },
+          },
+        },
       }}
     >
       <Stack.Screen name="ProfileMain" component={ProfileScreen} />
@@ -69,7 +105,7 @@ const ProfileStack = () => {
       />
     </Stack.Navigator>
   );
-};
+}
 
 const AboutStack = () => {
   return (
@@ -77,6 +113,24 @@ const AboutStack = () => {
       screenOptions={{
         headerShown: false,
         animationEnabled: true,
+        animationTypeForReplace: 'pop',
+        cardStyle: { backgroundColor: COLORS.dark },
+        transitionSpec: {
+          open: {
+            animation: 'timing',
+            config: {
+              duration: 300,
+              useNativeDriver: true,
+            },
+          },
+          close: {
+            animation: 'timing',
+            config: {
+              duration: 300,
+              useNativeDriver: true,
+            },
+          },
+        },
       }}
     >
       <Stack.Screen name="AboutMain" component={AboutScreen} />
@@ -89,7 +143,7 @@ const AboutStack = () => {
       />
     </Stack.Navigator>
   );
-};
+}
 
 const TabNavigator = () => {
   return (
