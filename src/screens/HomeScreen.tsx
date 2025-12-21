@@ -27,27 +27,37 @@ export const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
       selectedCategory
         ? PRODUCTS.filter(p => p.category === selectedCategory)
         : PRODUCTS,
-    [selectedCategory]
+    [selectedCategory],
   );
 
-  const handleAddToCart = useCallback((product: Product) => {
-    addToCart(product, 1);
-    InteractionManager.runAfterInteractions(() => {
-      Alert.alert('Berhasil', `${product.name} ditambahkan ke keranjang`);
-    });
-  }, [addToCart]);
+  const handleAddToCart = useCallback(
+    (product: Product) => {
+      addToCart(product, 1);
+      InteractionManager.runAfterInteractions(() => {
+        Alert.alert('Berhasil', `${product.name} ditambahkan ke keranjang`);
+      });
+    },
+    [addToCart],
+  );
 
-  const handleProductPress = useCallback((product: Product) => {
-    InteractionManager.runAfterInteractions(() => {
-      navigation.navigate('ProductDetail', { product });
-    });
-  }, [navigation]);
+  const handleProductPress = useCallback(
+    (product: Product) => {
+      InteractionManager.runAfterInteractions(() => {
+        navigation.navigate('ProductDetail', { product });
+      });
+    },
+    [navigation],
+  );
 
   return (
     <View style={styles.container}>
       <Header onCartPress={() => navigation.navigate('Cart')} showCart={true} />
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false} scrollEventThrottle={16}>
+      <ScrollView
+        style={styles.content}
+        showsVerticalScrollIndicator={false}
+        scrollEventThrottle={16}
+      >
         {/* Banner */}
         <View style={styles.banner}>
           <Text style={styles.bannerText}>Koleksi Terbaru Kami</Text>

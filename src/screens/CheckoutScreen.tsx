@@ -64,7 +64,11 @@ export const CheckoutScreen: React.FC<{ navigation: any }> = ({
     <View style={styles.container}>
       <Header onCartPress={() => {}} title="Checkout" showCart={false} />
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false} scrollEventThrottle={16}>
+      <ScrollView
+        style={styles.content}
+        showsVerticalScrollIndicator={false}
+        scrollEventThrottle={16}
+      >
         {/* Order Summary */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Ringkasan Pesanan</Text>

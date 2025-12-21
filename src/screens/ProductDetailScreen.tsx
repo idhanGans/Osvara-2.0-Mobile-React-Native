@@ -37,7 +37,11 @@ export const ProductDetailScreen: React.FC<{ navigation: any; route: any }> = ({
         showCart={true}
       />
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false} scrollEventThrottle={16}>
+      <ScrollView
+        style={styles.content}
+        showsVerticalScrollIndicator={false}
+        scrollEventThrottle={16}
+      >
         {/* Image */}
         <Image
           source={{ uri: product.image }}

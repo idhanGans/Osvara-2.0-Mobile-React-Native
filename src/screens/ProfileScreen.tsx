@@ -34,7 +34,11 @@ export const ProfileScreen: React.FC<{ navigation: any }> = ({
         showCart={true}
       />
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false} scrollEventThrottle={16}>
+      <ScrollView
+        style={styles.content}
+        showsVerticalScrollIndicator={false}
+        scrollEventThrottle={16}
+      >
         {/* Profile Card */}
         <View style={styles.profileCard}>
           <View style={styles.avatar}>

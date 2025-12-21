@@ -67,7 +67,7 @@ const HomeStack = () => {
       />
     </Stack.Navigator>
   );
-}
+};
 
 const ProfileStack = () => {
   return (
@@ -105,7 +105,7 @@ const ProfileStack = () => {
       />
     </Stack.Navigator>
   );
-}
+};
 
 const AboutStack = () => {
   return (
@@ -143,7 +143,7 @@ const AboutStack = () => {
       />
     </Stack.Navigator>
   );
-}
+};
 
 const TabNavigator = () => {
   return (

@@ -30,10 +30,13 @@ export const CartScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     });
   }, [items.length, navigation]);
 
-  const handleRemove = useCallback((itemId: string) => {
-    removeFromCart(itemId);
-    Alert.alert('Dihapus', 'Produk dihapus dari keranjang');
-  }, [removeFromCart]);
+  const handleRemove = useCallback(
+    (itemId: string) => {
+      removeFromCart(itemId);
+      Alert.alert('Dihapus', 'Produk dihapus dari keranjang');
+    },
+    [removeFromCart],
+  );
 
   const handleClearCart = useCallback(() => {
     Alert.alert(
@@ -75,7 +78,11 @@ export const CartScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     <View style={styles.container}>
       <Header onCartPress={() => {}} title="Keranjang" showCart={false} />
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false} scrollEventThrottle={16}>
+      <ScrollView
+        style={styles.content}
+        showsVerticalScrollIndicator={false}
+        scrollEventThrottle={16}
+      >
         {/* Items List */}
         <View style={styles.itemsSection}>
           <FlatList

@@ -75,13 +75,16 @@ const ProductCardComponent: React.FC<ProductCardProps> = ({
   );
 };
 
-export const ProductCard = React.memo(ProductCardComponent, (prevProps, nextProps) => {
-  return (
-    prevProps.product.id === nextProps.product.id &&
-    prevProps.onPress === nextProps.onPress &&
-    prevProps.onAddToCart === nextProps.onAddToCart
-  );
-});
+export const ProductCard = React.memo(
+  ProductCardComponent,
+  (prevProps, nextProps) => {
+    return (
+      prevProps.product.id === nextProps.product.id &&
+      prevProps.onPress === nextProps.onPress &&
+      prevProps.onAddToCart === nextProps.onAddToCart
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   card: {

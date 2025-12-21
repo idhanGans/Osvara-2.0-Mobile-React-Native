@@ -23,7 +23,11 @@ export const AboutScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
         showCart={true}
       />
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false} scrollEventThrottle={16}>
+      <ScrollView
+        style={styles.content}
+        showsVerticalScrollIndicator={false}
+        scrollEventThrottle={16}
+      >
         {/* Logo Section */}
         <View style={styles.logoSection}>
           <Text style={styles.logo}>OSVARA</Text>
