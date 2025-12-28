@@ -114,7 +114,8 @@ export const ProductDetailScreen: React.FC<{ navigation: any; route: any }> = ({
                     <Text
                       style={[
                         styles.optionButtonText,
-                        selectedSize === size && styles.optionButtonTextSelected,
+                        selectedSize === size &&
+                          styles.optionButtonTextSelected,
                       ]}
                     >
                       {size}
@@ -143,7 +144,8 @@ export const ProductDetailScreen: React.FC<{ navigation: any; route: any }> = ({
                     <Text
                       style={[
                         styles.optionButtonText,
-                        selectedColor === color && styles.optionButtonTextSelected,
+                        selectedColor === color &&
+                          styles.optionButtonTextSelected,
                       ]}
                     >
                       {color}

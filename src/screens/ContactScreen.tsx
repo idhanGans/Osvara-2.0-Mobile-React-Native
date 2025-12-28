@@ -63,7 +63,8 @@ export const ContactScreen: React.FC<{ navigation: any }> = ({
 
   const handleWhatsApp = () => {
     const phone = '6281234567890'; // Osvara WhatsApp
-    const message = 'Halo Osvara, saya ingin bertanya tentang produk fashion Anda';
+    const message =
+      'Halo Osvara, saya ingin bertanya tentang produk fashion Anda';
     const url = `whatsapp://send?phone=${phone}&text=${encodeURIComponent(
       message,
     )}`;
@@ -94,7 +95,8 @@ export const ContactScreen: React.FC<{ navigation: any }> = ({
         <View style={styles.heroSection}>
           <Text style={styles.heroTitle}>Contact Osvara</Text>
           <Text style={styles.heroSubtitle}>
-            Get in touch with our team. We're here to help you find the perfect pieces.
+            Get in touch with our team. We're here to help you find the perfect
+            pieces.
           </Text>
         </View>
 
