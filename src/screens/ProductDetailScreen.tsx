@@ -8,8 +8,10 @@ import {
   StyleSheet,
   Alert,
   InteractionManager,
+  Modal,
 } from 'react-native';
 import { Header } from '../components/Header';
+import { MockupProduct } from '../components/MockupProduct';
 import { COLORS, formatPrice } from '../utils/constants';
 import { useCartStore } from '../store/cartStore';
 
@@ -19,12 +21,24 @@ export const ProductDetailScreen: React.FC<{ navigation: any; route: any }> = ({
 }) => {
   const { product } = route.params;
   const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState<string | null>(
+    product.sizes?.[0] || null,
+  );
+  const [selectedColor, setSelectedColor] = useState<string | null>(
+    product.colors?.[0] || null,
+  );
+  const [showMockup, setShowMockup] = useState(false);
   const addToCart = useCartStore(state => state.addToCart);
+  const discountPercent = product.originalPrice
+    ? Math.round(
+        ((product.originalPrice - product.price) / product.originalPrice) * 100,
+      )
+    : 0;
 
   const handleAddToCart = useCallback(() => {
     addToCart(product, quantity);
     InteractionManager.runAfterInteractions(() => {
-      Alert.alert('Berhasil', `${product.name} ditambahkan ke keranjang`);
+      Alert.alert('Success', `${product.name} added to cart`);
       navigation.goBack();
     });
   }, [addToCart, product, quantity, navigation]);
@@ -56,29 +70,102 @@ export const ProductDetailScreen: React.FC<{ navigation: any; route: any }> = ({
             <Text style={styles.rating}>★ {product.rating}</Text>
           </View>
 
-          <Text style={styles.category}>{product.category}</Text>
-          <Text style={styles.price}>{formatPrice(product.price)}</Text>
+          <View style={styles.metaRow}>
+            <Text style={styles.category}>{product.category}</Text>
+            {product.brand && <Text style={styles.brand}>{product.brand}</Text>}
+            {product.badge && <Text style={styles.badge}>{product.badge}</Text>}
+          </View>
+
+          <View style={styles.priceRow}>
+            <Text style={styles.price}>{formatPrice(product.price)}</Text>
+            {product.originalPrice && (
+              <Text style={styles.originalPrice}>
+                {formatPrice(product.originalPrice)}
+              </Text>
+            )}
+            {discountPercent > 0 && (
+              <Text style={styles.discount}>-{discountPercent}%</Text>
+            )}
+          </View>
 
           {/* Description */}
           <View style={styles.descriptionSection}>
-            <Text style={styles.sectionTitle}>Deskripsi</Text>
+            <Text style={styles.sectionTitle}>Description</Text>
             <Text style={styles.description}>
-              {product.description || 'Produk berkualitas premium dari Osvara.'}
+              {product.description || 'Premium quality product from Osvara.'}
             </Text>
           </View>
 
+          {/* Sizes */}
+          {product.sizes && product.sizes.length > 0 && (
+            <View style={styles.optionsSection}>
+              <Text style={styles.sectionTitle}>Size</Text>
+              <View style={styles.optionsContainer}>
+                {product.sizes.map((size: string) => (
+                  <TouchableOpacity
+                    key={size}
+                    style={[
+                      styles.optionButton,
+                      selectedSize === size && styles.optionButtonSelected,
+                    ]}
+                    onPress={() => setSelectedSize(size)}
+                    activeOpacity={0.7}
+                  >
+                    <Text
+                      style={[
+                        styles.optionButtonText,
+                        selectedSize === size && styles.optionButtonTextSelected,
+                      ]}
+                    >
+                      {size}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          )}
+
+          {/* Colors */}
+          {product.colors && product.colors.length > 0 && (
+            <View style={styles.optionsSection}>
+              <Text style={styles.sectionTitle}>Color</Text>
+              <View style={styles.optionsContainer}>
+                {product.colors.map((color: string) => (
+                  <TouchableOpacity
+                    key={color}
+                    style={[
+                      styles.optionButton,
+                      selectedColor === color && styles.optionButtonSelected,
+                    ]}
+                    onPress={() => setSelectedColor(color)}
+                    activeOpacity={0.7}
+                  >
+                    <Text
+                      style={[
+                        styles.optionButtonText,
+                        selectedColor === color && styles.optionButtonTextSelected,
+                      ]}
+                    >
+                      {color}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          )}
+
           {/* Details */}
           <View style={styles.detailsSection}>
-            <Text style={styles.sectionTitle}>Detail Produk</Text>
-            <DetailRow label="Material" value="100% Katun Premium" />
-            <DetailRow label="Ukuran" value="All Size" />
-            <DetailRow label="Warna" value="Sesuai Foto" />
-            <DetailRow label="Garansi" value="100% Kepuasan" />
+            <Text style={styles.sectionTitle}>Product Details</Text>
+            <DetailRow label="Material" value="Premium Fabric" />
+            <DetailRow label="In Stock" value="Yes" />
+            <DetailRow label="Guarantee" value="100% Satisfaction" />
+            <DetailRow label="Brand" value={product.brand || 'Osvara'} />
           </View>
 
           {/* Quantity */}
           <View style={styles.quantitySection}>
-            <Text style={styles.sectionTitle}>Jumlah</Text>
+            <Text style={styles.sectionTitle}>Quantity</Text>
             <View style={styles.quantityContainer}>
               <TouchableOpacity
                 onPress={() => setQuantity(Math.max(1, quantity - 1))}
@@ -98,6 +185,15 @@ export const ProductDetailScreen: React.FC<{ navigation: any; route: any }> = ({
             </View>
           </View>
 
+          {/* Virtual Try-On Button */}
+          <TouchableOpacity
+            style={styles.tryOnButton}
+            onPress={() => setShowMockup(true)}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.tryOnButtonText}>👗 Try Virtual</Text>
+          </TouchableOpacity>
+
           <View style={styles.spacer} />
         </View>
       </ScrollView>
@@ -109,9 +205,22 @@ export const ProductDetailScreen: React.FC<{ navigation: any; route: any }> = ({
           onPress={handleAddToCart}
           activeOpacity={0.8}
         >
-          <Text style={styles.addButtonText}>Tambah ke Keranjang</Text>
+          <Text style={styles.addButtonText}>Add to Cart</Text>
         </TouchableOpacity>
       </View>
+
+      {/* Virtual Try-On Modal */}
+      <Modal
+        visible={showMockup}
+        animationType="slide"
+        onRequestClose={() => setShowMockup(false)}
+      >
+        <MockupProduct
+          productImage={product.image}
+          productName={product.name}
+          onClose={() => setShowMockup(false)}
+        />
+      </Modal>
     </View>
   );
 };
@@ -159,7 +268,7 @@ const styles = StyleSheet.create({
   rating: {
     fontSize: 16,
     fontWeight: '700',
-    color: COLORS.gold,
+    color: COLORS.silver,
   },
   category: {
     fontSize: 12,
@@ -167,14 +276,82 @@ const styles = StyleSheet.create({
     opacity: 0.6,
     marginBottom: 12,
   },
+  metaRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginTop: 4,
+    marginBottom: 8,
+  },
+  brand: {
+    fontSize: 13,
+    color: COLORS.silver,
+    opacity: 0.8,
+    fontWeight: '600',
+  },
+  badge: {
+    fontSize: 12,
+    color: COLORS.silver,
+    backgroundColor: '#C0C0C01a',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#C0C0C030',
+  },
   price: {
     fontSize: 28,
     fontWeight: '700',
-    color: COLORS.gold,
-    marginBottom: 20,
+    color: COLORS.white,
+  },
+  priceRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 16,
+  },
+  originalPrice: {
+    fontSize: 14,
+    color: COLORS.silver,
+    opacity: 0.5,
+    textDecorationLine: 'line-through',
+  },
+  discount: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: COLORS.success,
   },
   descriptionSection: {
     marginBottom: 24,
+  },
+  optionsSection: {
+    marginBottom: 24,
+  },
+  optionsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  optionButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: COLORS.silver + '40',
+    backgroundColor: COLORS.darkAccent,
+  },
+  optionButtonSelected: {
+    borderColor: COLORS.white,
+    backgroundColor: COLORS.white + '20',
+  },
+  optionButtonText: {
+    color: COLORS.silver,
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  optionButtonTextSelected: {
+    color: COLORS.white,
+    fontWeight: '700',
   },
   sectionTitle: {
     fontSize: 16,
@@ -196,7 +373,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#d4af3720',
+    borderBottomColor: '#C0C0C020',
   },
   detailLabel: {
     fontSize: 14,
@@ -215,7 +392,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#d4af3750',
+    borderColor: '#C0C0C050',
     borderRadius: 8,
     alignSelf: 'flex-start',
   },
@@ -224,7 +401,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   quantityButtonText: {
-    color: COLORS.gold,
+    color: COLORS.white,
     fontSize: 18,
     fontWeight: '700',
   },
@@ -235,6 +412,20 @@ const styles = StyleSheet.create({
     minWidth: 40,
     textAlign: 'center',
   },
+  tryOnButton: {
+    backgroundColor: COLORS.darkAccent,
+    borderWidth: 2,
+    borderColor: COLORS.silver,
+    borderRadius: 10,
+    padding: 16,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  tryOnButtonText: {
+    color: COLORS.silver,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   spacer: {
     height: 40,
   },
@@ -244,14 +435,14 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   addButton: {
-    backgroundColor: COLORS.gold,
+    backgroundColor: COLORS.white,
     paddingVertical: 14,
     borderRadius: 24,
     justifyContent: 'center',
     alignItems: 'center',
   },
   addButtonText: {
-    color: COLORS.dark,
+    color: COLORS.black,
     fontSize: 16,
     fontWeight: '700',
   },

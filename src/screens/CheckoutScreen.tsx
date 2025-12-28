@@ -8,7 +8,6 @@ import {
   StyleSheet,
   Alert,
   Switch,
-  InteractionManager,
 } from 'react-native';
 import { Header } from '../components/Header';
 import { COLORS, formatPrice } from '../utils/constants';
@@ -28,14 +27,14 @@ export const CheckoutScreen: React.FC<{ navigation: any }> = ({
   const getTotalPrice = useCartStore(state => state.getTotalPrice());
   const clearCart = useCartStore(state => state.clearCart);
 
-  const validateEmail = (email: string) => {
+  const validateEmail = (value: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    return emailRegex.test(value);
   };
 
-  const validatePhone = (phone: string) => {
+  const validatePhone = (value: string) => {
     const phoneRegex = /^[0-9]{10,15}$/;
-    return phoneRegex.test(phone.replace(/\D/g, ''));
+    return phoneRegex.test(value.replace(/\D/g, ''));
   };
 
   const handleCheckout = useCallback(async () => {
@@ -63,7 +62,7 @@ export const CheckoutScreen: React.FC<{ navigation: any }> = ({
       setIsLoading(false);
       const orderNumber = Math.floor(Math.random() * 1000000);
       Alert.alert(
-        'Pesanan Berhasil! ✅',
+        'Pesanan Berhasil',
         `Terima kasih telah berbelanja!\n\nNo. Pesanan: #${orderNumber}\n\nNama: ${name}\nAlamat: ${address}\n\nPesanan akan dikirim dalam 2-3 hari kerja.`,
         [
           {
@@ -167,8 +166,8 @@ export const CheckoutScreen: React.FC<{ navigation: any }> = ({
             <Switch
               value={useWhatsApp}
               onValueChange={setUseWhatsApp}
-              trackColor={{ false: '#d4af3740', true: '#d4af3750' }}
-              thumbColor={useWhatsApp ? COLORS.gold : '#666'}
+              trackColor={{ false: '#C0C0C040', true: '#C0C0C050' }}
+              thumbColor={useWhatsApp ? COLORS.silver : '#666'}
             />
           </View>
         </View>
@@ -207,7 +206,7 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
   },
   backButton: {
-    color: COLORS.gold,
+    color: COLORS.white,
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 8,
@@ -220,7 +219,7 @@ const styles = StyleSheet.create({
   section: {
     backgroundColor: COLORS.darkAccent,
     borderWidth: 1,
-    borderColor: '#d4af3730',
+    borderColor: '#C0C0C030',
     borderRadius: 12,
     padding: 16,
     marginBottom: 16,
@@ -244,11 +243,11 @@ const styles = StyleSheet.create({
   summaryItemPrice: {
     fontSize: 14,
     fontWeight: '600',
-    color: COLORS.gold,
+    color: COLORS.silver,
   },
   divider: {
     height: 1,
-    backgroundColor: '#d4af3730',
+    backgroundColor: '#C0C0C030',
     marginVertical: 12,
   },
   totalRow: {
@@ -263,12 +262,12 @@ const styles = StyleSheet.create({
   totalValue: {
     fontSize: 16,
     fontWeight: '700',
-    color: COLORS.gold,
+    color: COLORS.silver,
   },
   input: {
     backgroundColor: COLORS.dark,
     borderWidth: 1,
-    borderColor: '#d4af3750',
+    borderColor: '#C0C0C050',
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 10,
@@ -301,7 +300,7 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   checkoutButton: {
-    backgroundColor: COLORS.gold,
+    backgroundColor: COLORS.silver,
     paddingVertical: 14,
     borderRadius: 24,
     justifyContent: 'center',

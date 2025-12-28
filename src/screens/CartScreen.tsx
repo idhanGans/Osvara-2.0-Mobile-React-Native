@@ -7,7 +7,6 @@ import {
   StyleSheet,
   FlatList,
   Alert,
-  InteractionManager,
 } from 'react-native';
 import { Header } from '../components/Header';
 import { COLORS, formatPrice } from '../utils/constants';
@@ -58,7 +57,6 @@ export const CartScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
       <View style={styles.container}>
         <Header onCartPress={() => {}} title="Keranjang" showCart={false} />
         <View style={styles.emptyContainer}>
-          <Text style={styles.emptyIcon}>🛒</Text>
           <Text style={styles.emptyTitle}>Keranjang Kosong</Text>
           <Text style={styles.emptyText}>
             Tambahkan produk untuk mulai belanja
@@ -190,10 +188,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
   },
-  emptyIcon: {
-    fontSize: 64,
-    marginBottom: 16,
-  },
   emptyTitle: {
     fontSize: 20,
     fontWeight: '700',
@@ -209,7 +203,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   continueButton: {
-    backgroundColor: COLORS.gold,
+    backgroundColor: COLORS.silver,
     paddingHorizontal: 32,
     paddingVertical: 12,
     borderRadius: 24,
@@ -225,7 +219,7 @@ const styles = StyleSheet.create({
   cartItem: {
     backgroundColor: COLORS.darkAccent,
     borderWidth: 1,
-    borderColor: '#d4af3730',
+    borderColor: '#C0C0C030',
     borderRadius: 12,
     padding: 12,
     marginBottom: 12,
@@ -242,7 +236,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   itemPrice: {
-    color: COLORS.gold,
+    color: COLORS.white,
     fontWeight: '700',
     fontSize: 14,
   },
@@ -252,7 +246,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.dark,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: '#d4af3750',
+    borderColor: '#C0C0C050',
     marginHorizontal: 12,
   },
   quantityButton: {
@@ -260,7 +254,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   quantityButtonText: {
-    color: COLORS.gold,
+    color: COLORS.white,
     fontSize: 14,
     fontWeight: '700',
   },
@@ -281,7 +275,7 @@ const styles = StyleSheet.create({
   summarySection: {
     backgroundColor: COLORS.darkAccent,
     borderWidth: 1,
-    borderColor: '#d4af3730',
+    borderColor: '#C0C0C030',
     borderRadius: 12,
     padding: 16,
     marginVertical: 16,
@@ -303,16 +297,16 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
-    backgroundColor: '#d4af3730',
+    backgroundColor: '#C0C0C030',
     marginVertical: 12,
   },
   totalLabel: {
-    color: COLORS.gold,
+    color: COLORS.silver,
     fontSize: 16,
     fontWeight: '700',
   },
   totalValue: {
-    color: COLORS.gold,
+    color: COLORS.silver,
     fontSize: 16,
     fontWeight: '700',
   },
@@ -326,20 +320,20 @@ const styles = StyleSheet.create({
   clearButton: {
     flex: 1,
     borderWidth: 2,
-    borderColor: COLORS.gold,
+    borderColor: COLORS.silver,
     paddingVertical: 12,
     borderRadius: 24,
     justifyContent: 'center',
     alignItems: 'center',
   },
   clearButtonText: {
-    color: COLORS.gold,
+    color: COLORS.silver,
     fontWeight: '700',
     fontSize: 16,
   },
   checkoutButton: {
     flex: 1,
-    backgroundColor: COLORS.gold,
+    backgroundColor: COLORS.silver,
     paddingVertical: 12,
     borderRadius: 24,
     justifyContent: 'center',

@@ -13,6 +13,8 @@ import { CartScreen } from './src/screens/CartScreen';
 import { CheckoutScreen } from './src/screens/CheckoutScreen';
 import { ProfileScreen } from './src/screens/ProfileScreen';
 import { AboutScreen } from './src/screens/AboutScreen';
+import { GalleryScreen } from './src/screens/GalleryScreen';
+import { ContactScreen } from './src/screens/ContactScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -22,49 +24,12 @@ const HomeStack = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        animationEnabled: true,
-        animationTypeForReplace: 'pop',
-        cardStyle: { backgroundColor: COLORS.dark },
-        transitionSpec: {
-          open: {
-            animation: 'timing',
-            config: {
-              duration: 300,
-              useNativeDriver: true,
-            },
-          },
-          close: {
-            animation: 'timing',
-            config: {
-              duration: 300,
-              useNativeDriver: true,
-            },
-          },
-        },
       }}
     >
       <Stack.Screen name="HomeMain" component={HomeScreen} />
-      <Stack.Screen
-        name="ProductDetail"
-        component={ProductDetailScreen}
-        options={{
-          animationEnabled: true,
-        }}
-      />
-      <Stack.Screen
-        name="Cart"
-        component={CartScreen}
-        options={{
-          animationEnabled: true,
-        }}
-      />
-      <Stack.Screen
-        name="Checkout"
-        component={CheckoutScreen}
-        options={{
-          animationEnabled: true,
-        }}
-      />
+      <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
+      <Stack.Screen name="Cart" component={CartScreen} />
+      <Stack.Screen name="Checkout" component={CheckoutScreen} />
     </Stack.Navigator>
   );
 };
@@ -74,35 +39,36 @@ const ProfileStack = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        animationEnabled: true,
-        animationTypeForReplace: 'pop',
-        cardStyle: { backgroundColor: COLORS.dark },
-        transitionSpec: {
-          open: {
-            animation: 'timing',
-            config: {
-              duration: 300,
-              useNativeDriver: true,
-            },
-          },
-          close: {
-            animation: 'timing',
-            config: {
-              duration: 300,
-              useNativeDriver: true,
-            },
-          },
-        },
       }}
     >
       <Stack.Screen name="ProfileMain" component={ProfileScreen} />
-      <Stack.Screen
-        name="Cart"
-        component={CartScreen}
-        options={{
-          animationEnabled: true,
-        }}
-      />
+      <Stack.Screen name="Cart" component={CartScreen} />
+    </Stack.Navigator>
+  );
+};
+
+const GalleryStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="GalleryMain" component={GalleryScreen} />
+      <Stack.Screen name="Cart" component={CartScreen} />
+    </Stack.Navigator>
+  );
+};
+
+const ContactStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="ContactMain" component={ContactScreen} />
+      <Stack.Screen name="Cart" component={CartScreen} />
     </Stack.Navigator>
   );
 };
@@ -112,35 +78,10 @@ const AboutStack = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        animationEnabled: true,
-        animationTypeForReplace: 'pop',
-        cardStyle: { backgroundColor: COLORS.dark },
-        transitionSpec: {
-          open: {
-            animation: 'timing',
-            config: {
-              duration: 300,
-              useNativeDriver: true,
-            },
-          },
-          close: {
-            animation: 'timing',
-            config: {
-              duration: 300,
-              useNativeDriver: true,
-            },
-          },
-        },
       }}
     >
       <Stack.Screen name="AboutMain" component={AboutScreen} />
-      <Stack.Screen
-        name="Cart"
-        component={CartScreen}
-        options={{
-          animationEnabled: true,
-        }}
-      />
+      <Stack.Screen name="Cart" component={CartScreen} />
     </Stack.Navigator>
   );
 };
@@ -150,11 +91,11 @@ const TabNavigator = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: COLORS.gold,
-        tabBarInactiveTintColor: COLORS.silver,
+        tabBarActiveTintColor: COLORS.silver,
+        tabBarInactiveTintColor: COLORS.grey,
         tabBarStyle: {
           backgroundColor: COLORS.dark,
-          borderTopColor: '#d4af3730',
+          borderTopColor: '#C0C0C030',
           borderTopWidth: 1,
           paddingBottom: 8,
           paddingTop: 8,
@@ -171,19 +112,20 @@ const TabNavigator = () => {
         component={HomeStack}
         options={{
           tabBarLabel: 'Beranda',
-          tabBarIcon: ({ color, size }) => (
-            <TabIcon icon="🏠" color={color} size={size} />
-          ),
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={ProfileStack}
+        name="Gallery"
+        component={GalleryStack}
         options={{
-          tabBarLabel: 'Profil',
-          tabBarIcon: ({ color, size }) => (
-            <TabIcon icon="👤" color={color} size={size} />
-          ),
+          tabBarLabel: 'Galeri',
+        }}
+      />
+      <Tab.Screen
+        name="Contact"
+        component={ContactStack}
+        options={{
+          tabBarLabel: 'Kontak',
         }}
       />
       <Tab.Screen
@@ -191,29 +133,18 @@ const TabNavigator = () => {
         component={AboutStack}
         options={{
           tabBarLabel: 'Tentang',
-          tabBarIcon: ({ color, size }) => (
-            <TabIcon icon="ℹ️" color={color} size={size} />
-          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileStack}
+        options={{
+          tabBarLabel: 'Profil',
         }}
       />
     </Tab.Navigator>
   );
 };
-
-const TabIcon = ({ icon, color, size }: any) => {
-  return (
-    <Text
-      style={{
-        fontSize: size,
-        color: color,
-      }}
-    >
-      {icon}
-    </Text>
-  );
-};
-
-import { Text } from 'react-native';
 
 function App() {
   return (

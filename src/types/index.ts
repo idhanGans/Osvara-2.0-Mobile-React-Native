@@ -6,6 +6,9 @@ export interface Product {
   category: string;
   rating: number;
   description?: string;
+  brand?: string;
+  originalPrice?: number;
+  badge?: string;
 }
 
 export interface CartItem extends Product {

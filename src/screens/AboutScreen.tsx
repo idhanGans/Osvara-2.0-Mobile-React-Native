@@ -19,7 +19,7 @@ export const AboutScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     <View style={styles.container}>
       <Header
         onCartPress={() => navigation.navigate('Cart')}
-        title="Tentang Kami"
+        title="About Us"
         showCart={true}
       />
 
@@ -31,82 +31,74 @@ export const AboutScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
         {/* Logo Section */}
         <View style={styles.logoSection}>
           <Text style={styles.logo}>OSVARA</Text>
-          <Text style={styles.tagline}>Busana Muslim Modern</Text>
+          <Text style={styles.tagline}>Premium Muslimah Fashion</Text>
         </View>
 
         {/* About */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Tentang OSVARA</Text>
+          <Text style={styles.sectionTitle}>About OSVARA</Text>
           <Text style={styles.sectionText}>
-            OSVARA adalah platform e-commerce terpercaya yang menyediakan
-            koleksi busana muslim modern dengan kualitas premium. Kami
-            berkomitmen memberikan pengalaman belanja yang elegan dan memuaskan.
+            Osvara is a trusted e-commerce platform providing premium modern
+            muslimah fashion. We are committed to offering an elegant and
+            satisfying shopping experience with timeless, high-quality pieces.
           </Text>
         </View>
 
         {/* Mission */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Misi Kami</Text>
-          <BulletPoint text="Menyediakan busana muslim berkualitas dengan desain modern" />
-          <BulletPoint text="Memberikan layanan pelanggan terbaik dan responsif" />
-          <BulletPoint text="Memastikan setiap pelanggan puas dengan pembelian mereka" />
-          <BulletPoint text="Mempromosikan fashion modest yang elegan dan nyaman" />
+          <Text style={styles.sectionTitle}>Our Mission</Text>
+          <BulletPoint text="Provide premium quality muslimah fashion with modern designs" />
+          <BulletPoint text="Deliver excellent and responsive customer service" />
+          <BulletPoint text="Ensure every customer is satisfied with their purchase" />
+          <BulletPoint text="Promote elegant and comfortable modest fashion" />
         </View>
 
         {/* Features */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Mengapa Pilih OSVARA?</Text>
-          <FeatureItem icon="✓" label="Produk Berkualitas Premium" />
-          <FeatureItem icon="✓" label="Harga Kompetitif dan Adil" />
-          <FeatureItem icon="✓" label="Pengiriman Cepat dan Aman" />
-          <FeatureItem icon="✓" label="Garansi 100% Kepuasan" />
-          <FeatureItem icon="✓" label="Layanan Pelanggan 24/7" />
+          <Text style={styles.sectionTitle}>Why Choose Osvara?</Text>
+          <FeatureItem icon="✓" label="Premium Quality Products" />
+          <FeatureItem icon="✓" label="Competitive & Fair Pricing" />
+          <FeatureItem icon="✓" label="Fast & Secure Shipping" />
+          <FeatureItem icon="✓" label="100% Satisfaction Guarantee" />
+          <FeatureItem icon="✓" label="24/7 Customer Service" />
         </View>
 
         {/* Contact */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Hubungi Kami</Text>
-          <ContactItem icon="📱" label="WhatsApp" value="+62 8XX XXXX XXXX" />
-          <ContactItem icon="📧" label="Email" value="hello@osvara.com" />
-          <ContactItem
-            icon="📍"
-            label="Alamat"
-            value="Jakarta Selatan, Indonesia"
-          />
+          <Text style={styles.sectionTitle}>Contact Us</Text>
+          <ContactItem label="WhatsApp" value="+62 812-3456-7890" />
+          <ContactItem label="Email" value="hello@osvara.com" />
+          <ContactItem label="Address" value="Jakarta Selatan, Indonesia" />
         </View>
 
         {/* Social Media */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Ikuti Kami</Text>
+          <Text style={styles.sectionTitle}>Follow Us</Text>
           <View style={styles.socialContainer}>
             <SocialButton
-              icon="f"
               label="Facebook"
-              onPress={() => handleOpenLink('https://facebook.com')}
+              onPress={() => handleOpenLink('https://facebook.com/osvara')}
             />
             <SocialButton
-              icon="📷"
               label="Instagram"
-              onPress={() => handleOpenLink('https://instagram.com')}
+              onPress={() => handleOpenLink('https://instagram.com/osvara')}
             />
             <SocialButton
-              icon="𝕏"
-              label="Twitter"
-              onPress={() => handleOpenLink('https://twitter.com')}
-            />
-            <SocialButton
-              icon="▶"
               label="TikTok"
-              onPress={() => handleOpenLink('https://tiktok.com')}
+              onPress={() => handleOpenLink('https://tiktok.com/osvara')}
+            />
+            <SocialButton
+              label="WhatsApp"
+              onPress={() => handleOpenLink('https://wa.me/6281234567890')}
             />
           </View>
         </View>
 
         {/* Version */}
         <View style={styles.versionSection}>
-          <Text style={styles.versionText}>OSVARA Mobile v1.0.0</Text>
+          <Text style={styles.versionText}>Osvara Mobile v1.0.0</Text>
           <Text style={styles.copyrightText}>
-            © 2024 OSVARA. All rights reserved.
+            © 2024 Osvara. All rights reserved.
           </Text>
         </View>
 
@@ -133,13 +125,11 @@ const FeatureItem: React.FC<{ icon: string; label: string }> = ({
   </View>
 );
 
-const ContactItem: React.FC<{ icon: string; label: string; value: string }> = ({
-  icon,
+const ContactItem: React.FC<{ label: string; value: string }> = ({
   label,
   value,
 }) => (
   <View style={styles.contactItem}>
-    <Text style={styles.contactIcon}>{icon}</Text>
     <View style={styles.contactInfo}>
       <Text style={styles.contactLabel}>{label}</Text>
       <Text style={styles.contactValue}>{value}</Text>
@@ -148,16 +138,14 @@ const ContactItem: React.FC<{ icon: string; label: string; value: string }> = ({
 );
 
 const SocialButton: React.FC<{
-  icon: string;
   label: string;
   onPress: () => void;
-}> = ({ icon, label, onPress }) => (
+}> = ({ label, onPress }) => (
   <TouchableOpacity
     style={styles.socialButton}
     onPress={onPress}
     activeOpacity={0.7}
   >
-    <Text style={styles.socialIcon}>{icon}</Text>
     <Text style={styles.socialLabel}>{label}</Text>
   </TouchableOpacity>
 );
@@ -181,7 +169,7 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: '700',
     letterSpacing: 3,
-    color: COLORS.gold,
+    color: COLORS.silver,
     marginBottom: 4,
   },
   tagline: {
@@ -192,7 +180,7 @@ const styles = StyleSheet.create({
   section: {
     backgroundColor: COLORS.darkAccent,
     borderWidth: 1,
-    borderColor: '#d4af3730',
+    borderColor: '#C0C0C030',
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
@@ -200,7 +188,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: '700',
-    color: COLORS.gold,
+    color: COLORS.silver,
     marginBottom: 12,
   },
   sectionText: {
@@ -214,7 +202,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   bulletDot: {
-    color: COLORS.gold,
+    color: COLORS.silver,
     fontSize: 16,
     fontWeight: '700',
     marginRight: 10,
@@ -233,7 +221,7 @@ const styles = StyleSheet.create({
   },
   featureIcon: {
     fontSize: 16,
-    color: COLORS.gold,
+    color: COLORS.silver,
     marginRight: 10,
     fontWeight: '700',
   },
@@ -246,11 +234,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     marginBottom: 14,
-  },
-  contactIcon: {
-    fontSize: 18,
-    marginRight: 12,
-    marginTop: 2,
   },
   contactInfo: {
     flex: 1,
@@ -276,14 +259,10 @@ const styles = StyleSheet.create({
     minWidth: '48%',
     backgroundColor: COLORS.dark,
     borderWidth: 1,
-    borderColor: '#d4af3750',
+    borderColor: '#C0C0C050',
     borderRadius: 8,
     paddingVertical: 12,
     alignItems: 'center',
-  },
-  socialIcon: {
-    fontSize: 20,
-    marginBottom: 4,
   },
   socialLabel: {
     fontSize: 12,
@@ -294,7 +273,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 20,
     borderTopWidth: 1,
-    borderTopColor: '#d4af3730',
+    borderTopColor: '#C0C0C030',
     marginTop: 12,
   },
   versionText: {

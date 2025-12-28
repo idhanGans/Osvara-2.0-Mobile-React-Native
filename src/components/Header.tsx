@@ -35,7 +35,7 @@ const HeaderComponent: React.FC<HeaderProps> = ({
             onPress={handlePress}
             activeOpacity={0.7}
           >
-            <Text style={styles.cartIcon}>🛒</Text>
+            <Text style={styles.cartIcon}>Cart</Text>
             {cartItems > 0 && (
               <View style={styles.badge}>
                 <Text style={styles.badgeText}>{cartItems}</Text>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     height: 56,
     backgroundColor: COLORS.dark,
     borderBottomWidth: 1,
-    borderBottomColor: '#d4af3725',
+    borderBottomColor: '#C0C0C025',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -68,20 +68,22 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     letterSpacing: 2,
-    color: COLORS.gold,
+    color: COLORS.silver,
   },
   cartButton: {
     position: 'relative',
     padding: 8,
   },
   cartIcon: {
-    fontSize: 24,
+    fontSize: 16,
+    color: COLORS.silver,
+    fontWeight: '700',
   },
   badge: {
     position: 'absolute',
     top: 0,
     right: 0,
-    backgroundColor: COLORS.gold,
+    backgroundColor: COLORS.silver,
     borderRadius: 10,
     width: 20,
     height: 20,
